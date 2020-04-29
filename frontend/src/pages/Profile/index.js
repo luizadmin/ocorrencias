@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {useState, useEffect } from 'react';
 import { Link} from 'react-router-dom';
 import { FiPower, FiTrash2 } from 'react-icons/fi';
 
@@ -9,10 +9,11 @@ import './styles.css';
 import logoImg from '../../assets/logo.svg';
 
 export default function Profile() {
+  //  const [] = useState([]);
     const [ocorrencias, setocorrencias] = useState([]);
 
-    const ID = localstorage.getitem('ID');
-    const Condominio = localstorage.getitem('Condominio');
+    const ID = localStorage.getitem('ID');
+    const Condominio = localStorage.getitem('Condominio');
 
 
     useEffect(() => {
@@ -24,11 +25,25 @@ export default function Profile() {
             })
     }, [ID]);
  
+  async function handleDeleteOcorrencias(id){
+      try {
+          await api.delete(`ocorrencias/${id}`, {
+              headers: {
+                  Authorization: ID,
+              }
+          });
+
+          setocorrencias(ocorrencias.filter(incidente => ocorrencias.id != id ));
+      } catch (err)
+        alert('Erro ao deletar, tente novamente.');
+    }
+}
+  
     return (
         <div  className='profile-container'>
             <header>
                 <img src={logoImg} alt="Ocorrências"  />
-                <span>Bem vinda, {ongName} </span>
+                <span>Bem vinda, {Condominio} </span>
 
                 <Link classname="button" to ="/incidents/new">Cadastrar nova ocorrência</Link>
                 <button type="button">
@@ -38,25 +53,29 @@ export default function Profile() {
 
             <h1>Ocorrências cadastradas</h1>
 
+
             <ul>
-               {Ocorrencias.map(incident => )}
-                  <li key={ocorrencia.ID}>
+                {ocorrencias.map(incident => (
+                  <li key={ocorrencias.ID}>
                     <strong>Ocorrência:</strong>
-                    <p>{ocorrencia.titulo}</p>
+                    <p>{ocorrencias.titulo}</p>
 
                     <strong>Descrição:</strong>
-                    <p>{ocorrencia.descricao}</p>
+                    <p>{ocorrencias.descricao}</p>
 
                     <strong>Categoria:</strong>
-                    <p>{ocorrencia.valor}</p>
+                    <p>{ocorrencias.valor}</p>
 
                     <button type="button">
                         <FiTrash2 size={20} color="#a8a8b3" />
                     </button>
                   </li>
+                ))}
 
             </ul>
 
         </div>
     )
 }
+
+

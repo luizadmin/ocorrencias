@@ -1,5 +1,5 @@
 // Update with your config settings.
-
+// Configuração do Banco de Dados
 module.exports = {
 
   development: {

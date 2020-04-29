@@ -6,12 +6,12 @@ module.exports = {
 
         const [count] = await connection('ocorrencias').count();
 
-        console.log(count);
+        // console.log(count);
 
         const ocorrencias = await connection('ocorrencias')
         .join('entidades', 'entidades.id', '=', 'ocorrencias.entidade_id')
             .limit(5)
-            .offset((page -1)*5)
+            .offset((page -1)*5)  // paginando de 5 e 5 registros
             .select([
                 'ocorrencias.*',
                 'entidades.nome',

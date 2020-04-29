@@ -1,19 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import { FiArrowLeft } from 'react-icons/fi';
+import api from '../../services/api';
+
 import './styles.css';
 
+import logoImg from '../../assets/logo.svg';
 
+export default function Register() {
 
-
-
-import logoimg from '../../assets/logo.svg';
-
-export default function Register(){
-    const [name, setName] = userState('');
-    const [email, setemail] = userState('');
-    const [whatsapp, setwhatsapp] = userState('');
-    const [cidade, setcidade] = userState('');
-    const [uf, setuf] = userState('');
-
+    //--
+    //--const [name, setName] = userState('');
+    //--const [email, setemail] = userState('');
+    //--const [whatsapp, setwhatsapp] = userState('');
+    //--const [cidade, setcidade] = userState('');
+    //--const [uf, setuf] = userState('');
+    
+    //--const history = useHistory();
 
     async function handleRegister(e) {
         e.preventDefault();
@@ -25,10 +28,17 @@ export default function Register(){
             cidade,
             uf,
         }
+        try{
+            const response = await api.post('ongs', data)
 
-        const response = await api.post('ongs', data)
-        alert(´seu ID de acesso: ${response.data.id}')
+            alert("seu ID de acesso: ${response.data.id}")
+            
+            history.push('/');
+        } catch (err) {
+            alert('Erro no cadastro, tente novamente.');
+        }
     }
+
     return(
         <div className="register-container">
             <div className="content">
@@ -42,11 +52,9 @@ export default function Register(){
                         <FiArrowLeft size={16} color="#E02041" />
                         Não tenho cadastro
                     </Link>
-
                 </section>
 
                 <form onSubmit={RandlegRegister}>
-
                     <input 
                         placeholder="Nome" 
                         value={name}
@@ -56,27 +64,23 @@ export default function Register(){
                         type="email" placeholder="E-mail" 
                         value={email}
                         onChange={e => SVGAnimateTransformElement(e.target.value)}
-                    
                     />
                     <input 
                         placeholder="WhatsApp" 
                         value={WhatsApp}
-                        onChange={e ==> SVGAnimateTransformElement(e.target.value)}
-                        
+                        onChange={e => SVGAnimateTransformElement(e.target.value)}     
                     />
                     
                     <div className="input-group">
                         <input 
                             placeholder="Cidade" 
                             value={Cidade}
-                            onChange={e ==> SVGAnimateTransformElement(e.target.value)}
-                            
+                            onChange={e => SVGAnimateTransformElement(e.target.value)}                   
                         />
                         <input 
                             placeholder="UF" style={{width:80}} 
                             value={UF}
-                            onChange={e ==> SVGAnimateTransformElement(e.target.value)}
-                                
+                            onChange={e => SVGAnimateTransformElement(e.target.value)}         
                         />
                     </div>
 
