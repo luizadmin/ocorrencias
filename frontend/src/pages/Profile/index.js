@@ -1,5 +1,5 @@
-import React, {useState, useEffect } from 'react';
-import { Link} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import { FiPower, FiTrash2 } from 'react-icons/fi';
 
 
@@ -12,9 +12,9 @@ export default function Profile() {
   //  const [] = useState([]);
     const [ocorrencias, setocorrencias] = useState([]);
 
-    const ID = localStorage.getitem('ID');
-    const Condominio = localStorage.getitem('Condominio');
-
+    const ID = localStorage.getItem('id');
+    const Entidade = localStorage.getItem('nome');
+    const history = useHistory();
 
     useEffect(() => {
         api.get('profile', {
@@ -33,49 +33,50 @@ export default function Profile() {
               }
           });
 
-          setocorrencias(ocorrencias.filter(incidente => ocorrencias.id != id ));
-      } catch (err)
-        alert('Erro ao deletar, tente novamente.');
+          setocorrencias(ocorrencias.filter(ocorrencias => ocorrencias.id !== id ));
+        } catch (err){
+            alert('Erro ao deletar, tente novamente.');
+        }
     }
-}
+
+    function handleLogout(){
+        localStorage.clear();
+
+        history.push('/');  
+    }
   
     return (
         <div  className='profile-container'>
             <header>
                 <img src={logoImg} alt="Ocorrências"  />
-                <span>Bem vinda, {Condominio} </span>
+                <span>Bem vinda, {Entidade} </span>
 
-                <Link classname="button" to ="/incidents/new">Cadastrar nova ocorrência</Link>
-                <button type="button">
+                <Link className="button" to ="/ocorrencias/new">Cadastrar nova ocorrência</Link>
+                <button onClick={handleLogout}  type="button">
                     <FiPower size={18} color="#E02041" />
                 </button>
             </header>
 
             <h1>Ocorrências cadastradas</h1>
-
-
+ 
             <ul>
-                {ocorrencias.map(incident => (
-                  <li key={ocorrencias.ID}>
+                {ocorrencias.map(ocorrencias => (
+                  <li key={ocorrencias.id}>
                     <strong>Ocorrência:</strong>
                     <p>{ocorrencias.titulo}</p>
 
                     <strong>Descrição:</strong>
                     <p>{ocorrencias.descricao}</p>
 
-                    <strong>Categoria:</strong>
-                    <p>{ocorrencias.valor}</p>
+                    <strong>Valor:</strong>
+                    <p>{ Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(ocorrencias.valor)}</p>
 
-                    <button type="button">
+                    <button type="button" onClick={() => handleDeleteOcorrencias(ocorrencias.id)} >
                         <FiTrash2 size={20} color="#a8a8b3" />
                     </button>
                   </li>
                 ))}
-
             </ul>
-
         </div>
     )
 }
-
-

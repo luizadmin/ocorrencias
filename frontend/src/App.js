@@ -1,17 +1,26 @@
-import React from 'react';
+import React, {useState } from 'react';
 
 import './global.css';
-
-//import Logon from './pages/Logon';
+// import Header from './Header';
+//import Logon from './pages/Register';
 
 import Routes from './routes';
 
 function App() {
+/*
+const [counter,setCounter ] = useState(0);
+// useState retornar uma array [ valor, funcaode atualizacao ]
+
+function increment(){
+  setCounter( counter + 1);
+  
+}
+*/
   return (
-    <h1>Hellow World</h1>
-    //<Logon />
-    //<Routes />
+    //<Logon/>
+    <Routes />
   );
+
 };
 
 export default App;

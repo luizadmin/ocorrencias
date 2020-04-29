@@ -9,78 +9,77 @@ import logoImg from '../../assets/logo.svg';
 
 export default function Register() {
 
-    //--
-    //--const [name, setName] = userState('');
-    //--const [email, setemail] = userState('');
-    //--const [whatsapp, setwhatsapp] = userState('');
-    //--const [cidade, setcidade] = userState('');
-    //--const [uf, setuf] = userState('');
+    const [nome, setNome] = useState('');
+    const [email, setEmail] = useState('');
+    const [whatsapp, setWhatsapp] = useState('');
+    const [cidade, setCidade] = useState('');
+    const [uf, setUf] = useState('');
     
-    //--const history = useHistory();
+    const history = useHistory();
 
     async function handleRegister(e) {
         e.preventDefault();
 
         const data = {
-            name,
+            nome,
             email,
             whatsapp,
             cidade,
             uf,
         }
         try{
-            const response = await api.post('ongs', data)
+            const response = await api.post('entidades', data)
 
-            alert("seu ID de acesso: ${response.data.id}")
+            alert(`seu ID de acesso: ${response.data.id}`)
             
             history.push('/');
         } catch (err) {
             alert('Erro no cadastro, tente novamente.');
         }
     }
-
+ 
     return(
         <div className="register-container">
             <div className="content">
                 <section>
-                    <img src={logoimg} alt="aeox" />
+                    <img src={logoImg} alt="aeox" />
 
                     <h1>Cadastro</h1>
-                    <p>Faça seu cadastro, entre na plataforma e ajude a melhorar sua comunidade</p>
+                    <p>Faça seu cadastro, entre na plataforma e ajude a melhorar seu condomínio</p>
 
-                    <Link className="blak-link" to="/register">
+                    <Link className="back-link" to="/">
                         <FiArrowLeft size={16} color="#E02041" />
-                        Não tenho cadastro
+                        Voltar para o logon
                     </Link>
                 </section>
 
-                <form onSubmit={RandlegRegister}>
+                <form onSubmit={handleRegister}>
                     <input 
                         placeholder="Nome" 
-                        value={name}
-                        onChange={e => SVGAnimateTransformElement(e.target.value)}
+                        value={nome}
+                        onChange={e => setNome(e.target.value)}
                     />
                     <input 
                         type="email" placeholder="E-mail" 
                         value={email}
-                        onChange={e => SVGAnimateTransformElement(e.target.value)}
+                        onChange={e => setEmail(e.target.value)}
                     />
                     <input 
                         placeholder="WhatsApp" 
-                        value={WhatsApp}
-                        onChange={e => SVGAnimateTransformElement(e.target.value)}     
+                        value={whatsapp}
+                        onChange={e => setWhatsapp(e.target.value)}     
                     />
                     
                     <div className="input-group">
                         <input 
                             placeholder="Cidade" 
-                            value={Cidade}
-                            onChange={e => SVGAnimateTransformElement(e.target.value)}                   
+                            value={cidade}
+                            onChange={e => setCidade(e.target.value)}                   
                         />
                         <input 
                             placeholder="UF" style={{width:80}} 
-                            value={UF}
-                            onChange={e => SVGAnimateTransformElement(e.target.value)}         
+                            value={uf}
+                            onChange={e => setUf(e.target.value)}         
                         />
                     </div>
 

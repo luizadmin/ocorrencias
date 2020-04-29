@@ -11,74 +11,72 @@ import logoImg from '../../assets/logo.svg';
 
 export default function NewIncident() {
 
-    //--const [ocorrencia, setOcorrencia] = useState('');
-   //-- const [descricao, setDescricao] = usageState('');
-   //-- const [valor, Setvalor] = usageState('');
-   //-- const history = useHistory();
+    const [titulo, setTitulo] = useState('');
+    const [descricao, setDescricao] = useState('');
+    const [valor, setValor] = useState('');
+    const history = useHistory();
 
-   //-- const OcorrenciaId = localStorage.getItem('OcorrenciaId');
+    const ID = localStorage.getItem('id');
 
     async function handleNewIncidente(e) {
         e.preventDefault();
 
         const data = {
-            ocorrencia,
+            titulo,
             descricao,
             valor,
-        };
-    };
+        };    
+        try {
+            await api.post('ocorrencias', data, {
+                headers: {
+                    Authorization: ID
+                }
+            })
+            history.push('/profile');
+        } catch (err) {
+            alert('Erro ao cadastrar ocorrência, tente novamente.');
 
-    /*
-    try {
-        await api.post('incidents', data, {
-            headers: {
-                Authorization: OcorrenciaId
-            }
-        })
-        history.push('/profile');
-    } catch (err) {
-        alert('Erro ao cadastrar ocorrência, tente novamente.');
-
+        }
     }
-
 
     return (
 
-        <div className="new-incident-container">
+        <div className="new-ocorrencia-container">
             <div className="content">
                 <section>
-                    <img src={logoimg} alt="ocorrências" />
+                    <img src={logoImg} alt="ocorrências" />
 
                     <h1>Cadastrar nova ocorrência</h1>
                     <p>Descreva a ocorrência detalhada para registrar no livro.</p>
 
-                    <Link className="blak-link" to="/profile">
+                    <Link className="back-link" to="/profile">
                         <FiArrowLeft size={16} color="#E02041" />
                         Voltar para home
                     </Link>
                 </section>
 
-                <form onSubmit>
+                <form onSubmit={handleNewIncidente}>
                     <input
                         placeholder="Ocorrência"
-                        value={ocorrenciae}
-                        onChange={e => setcorrencia(e.target.value)}
+                        value={titulo}
+                        onChange={e => setTitulo(e.target.value)}
                     />
-                    <input
+                    <textarea
                         placeholder="Descrição"
-                        value={Descricao}
-                        onChange={e => setdescricao(e.target.value)}
+                        value={descricao}
+                        onChange={e => setDescricao(e.target.value)}
 
                     />
                     <input
                         placeholder="WhatsApp"
-                        value={WhatsApp}
-                        onChange={e => SVGAnimateTransformElement(e.target.value)}
+                        value={valor}
+                        onChange={e => setValor(e.target.value)}
                     />
+
+                    <button className="button" type="submit">Cadastrar</button>
                 </form>
             </div>
         </div>
     )
 }
-*/
-}
+
